@@ -137,25 +137,39 @@ After the implementation of the class is done, follow the steps below to impleme
     - `javax.mail.jar`: see <https://java.net/projects/javamail/pages/Home> to download the JAR
 
 2.  After exporting the JAR, copy it to `<API-M_HOME>/repository/components/lib` directory.
-3.  Sign in to API Manager Management Console (`https://<Server Host>:9443/carbon`) and select **Browse** under **Resources.**
-    [![Resources Menu]({{base_path}}/assets/attachments/103334715/103334716.png)]({{base_path}}/assets/attachments/103334715/103334716.png)
+3.  Sign in to WSO2 API-M Admin Portal (`https://<Server-Host>:9443/admin`) and navigate to **Settings** --> **Advanced** section.
 
-4.  Go to the `/_system/governance/apimgt/applicationdata/workflow-extensions.xml` resource, disable the Simple Workflow Executor and enable the WS Workflow Executor. Also specify the service endpoint where the workflow engine is hosted and the credentials required to access the said service via basic authentication (i.e., username/password based authentication). For example:
+4.   Add the following under **Workflows** configuration section and enable the Custom Workflow Executor.
 
-    ``` xml
-        <WorkFlowExtensions>
+    ``` json tab="Example"
+    "Workflows" : {
         ...
-            <!--SubscriptionCreation executor="org.wso2.carbon.apimgt.impl.workflow.SubscriptionCreationSimpleWorkflowExecutor"/-->
-            <SubscriptionCreation executor="org.wso2.sample.workflow.SubsCreationEmailSender">
-               <Property name="adminEmail">to_user@email.com</Property>
-               <Property name="emailAddress">from _user@email.com</Property>
-               <Property name="emailPassword">from_user_password</Property>
-            </SubscriptionCreation>
+        "SubscriptionCreation" : {
+            "Class" : "org.wso2.sample.workflow.SubsCreationEmailSender",
+            "Properties" : {
+                "AdminEmail" : "to_user@email.com",
+                "EmailAddress" : "from _user@email.com",
+                "EmailPassword" : "from_user_password",
+            }
+        },
         ...
-        </WorkFlowExtensions>
+    }
     ```
 
-    Note that the `adminEmail`, `emailAddress`, and `emailPassword` properties will be assigned to the appropriate variables defined in the class through the public **`setter`** methods of those variables.
+    ``` json tab="Format"
+    "Workflows" : {
+        ...
+        "<Workflow_Type>" : {
+            "Class" : "<Fully_Qualified_Class_Name>",
+            "Properties" : {
+                "<Class_Attribute>": "<Value to be assigned (String, Number or Boolean)>"
+            }
+        },
+        ...
+    }
+    ```
+
+    Note that the `AdminEmail`, `EmailAddress`, and `EmailPassword` properties will be assigned to the appropriate variables defined in the class through the public **`setter`** methods of those variables.
 
 !!! note
     If you use the same or similar sample to return an email, you must remove the `org.jaggeryjs.hostobjects.email_0.9.0.ALPHA4_wso2v1.jar` file from the `<API-M_HOME>/repository/components/plugins` directory. Removing it results in a `ClassNotFoundException` thrown at server startup, but it does not affect the server's functionality.

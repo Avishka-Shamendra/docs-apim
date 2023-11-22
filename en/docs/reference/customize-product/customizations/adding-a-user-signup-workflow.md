@@ -8,26 +8,22 @@
 
 Follow the instructions below to add a user sign-up workflow with regard to the Developer Portal.
 
-1. Sign in to the API-M Management Console.
 
-     `https://<Server-Host>:9443/carbon`
+1. Sign in to WSO2 API-M Admin Portal (`https://<Server-Host>:9443/admin`).
 
-     `https://localhost:9443/carbon`
+2. Navigate to **Settings** --> **Advanced** section.
+    
+3. Add the following under **Workflows** configuration section and enable **UserSignUpApprovalWorkflowExecutor** for user self sign up.
 
-2. Select **Browse** under **Resources**.
-
-    ![Browse resources]({{base_path}}/assets/img/learn/wf-extensions-browse.png)
-
-3.  Go to `/_system/governance/apimgt/applicationdata/workflow-extensions.xml` resource, disable the **UserSignUpSimpleWorkflowExecutor** and enable **UserSignUpApprovalWorkflowExecutor** for user self sign up.
-
-    ```
-    <WorkFlowExtensions>
+    ``` json
+    "Workflows" : {
         ...
-            <!--UserSignUp executor="org.wso2.carbon.apimgt.impl.workflow.UserSignUpSimpleWorkflowExecutor"/-->
-            <UserSignUp executor="org.wso2.carbon.apimgt.impl.workflow.UserSignUpApprovalWorkflowExecutor"/>
+        "UserSignUp" : {},
         ...
-    </WorkFlowExtensions>
+    }
     ```
+
+    Once the changes are done, click on `Save` and save the new configuration . The approval workflow is now engaged.
 
 4.  Navigate to the Developer Portal.
 

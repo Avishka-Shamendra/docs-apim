@@ -5,36 +5,41 @@ This section let's see how to add a simple approval workflow to control the API 
 ## Engaging the Approval Workflow Executor in API Manager
 
 1. Enable the API state change workflow for the **Approval Workflow Executor**.
-
-     1. Sign in to the API-M management console (`https://<Server Host>:9443/carbon`).
-
-     2. Click **Resources** --> **Browse**.
      
-         [![Resources Browse Menu]({{base_path}}/assets/img/learn/wf-extensions-browse.png)]({{base_path}}/assets/img/learn/wf-extensions-browse.png)
+    1. Sign in to WSO2 API-M Admin Portal (`https://<Server-Host>:9443/admin`).
 
-     3. Go to the `/_system/governance/apimgt/applicationdata/workflow-extensions.xml` resource.
-     
-     4. Disable the `Simple Workflow Executor` and enable the `Approval Workflow Executor`.
+    2. Navigate to **Settings** --> **Advanced** section.
+        
+    3. Add the following under **Workflows** configuration section and enable **APIStateChangeApprovalWorkflowExecutor** for api state change workflow.
 
-        <a name="config"></a>
-        ```
-        <WorkFlowExtensions>
-            ....
-        <!--APIStateChange executor="org.wso2.carbon.apimgt.impl.workflow.APIStateChangeSimpleWorkflowExecutor" /-->
-        <APIStateChange executor="org.wso2.carbon.apimgt.impl.workflow.APIStateChangeApprovalWorkflowExecutor">
-            <Property name="stateList">Created:Publish,Published:Block</Property>
-        </APIStateChange>
-            ....
-        </WorkFlowExtensions>
+        ``` json
+        "Workflows" : {
+            ...
+            "APIStateChange" : {},
+            ...
+        }
         ```
 
-         You have now engaged the API state change approval Workflow. The default configuration is set to the following state changes.
+        Once the changes are done, click on `Save` and save the new configuration. You have now engaged the API state change approval Workflow. The default configuration is set to the following state changes.
 
         - **Created to Publish**
 
         - **Published to Block**
-         
-         For information on configuring more state changes, see [Advanced Configurations](#advanced-configurations).
+
+        You can modify the default state changes mentioned above by overriding the `StateList` property shown below,
+
+        ``` json
+        "Workflows" : {
+            ...
+            "APIStateChange" : {
+                "Properties" : {
+                    "StateList" : "Created:Publish,Published:Block"
+                }
+            },
+            ...
+        }
+        ```
+
 
 2.  Trigger an API state change request.
 

@@ -6,21 +6,21 @@ When the API subscription deletion workflow is enabled, when the subscription de
 
 ### Engaging the Approval Workflow Executor in the API Manager
 
-1.  Sign in to the API Manager Management Console (`https://<Server Host>:9443/carbon`) and go to **Browse** under **Resources**.
+1. Sign in to WSO2 API-M Admin Portal (`https://<Server-Host>:9443/admin`).
 
-    [![Workflow Extensions Browse]({{base_path}}/assets/img/learn/wf-extensions-browse.png)]({{base_path}}/assets/img/learn/wf-extensions-browse.png)
+2. Navigate to **Settings** --> **Advanced** section.
+    
+3. Add the following under **Workflows** configuration section and enable **Approval Workflow Executor** for subscription deletion.
 
-2.  Open the `/_system/governance/apimgt/applicationdata/workflow-extensions.xml` resource and click **Edit as text**. Disable the `SubscriptionDeletionSimpleWorkflowExecutor` and enable `SubscriptionDeletionApprovalWorkflowExecutor`. 
-    ``` 
-        <WorkFlowExtensions>
+    ``` json
+    "Workflows" : {
         ...
-            <!--SubscriptionDeletion executor="org.wso2.carbon.apimgt.impl.workflow.SubscriptionDeletionSimpleWorkflowExecutor"/-->
-            <ubscriptionDeletion executor="org.wso2.carbon.apimgt.impl.workflow.SubscriptionDeletionAprrovalWorkflowExecutor"/>
+        "SubscriptionDeletion" : {},
         ...
-        </WorkFlowExtensions>
+    }
     ```
 
-    The subscription deletion approval workflow executor is now engaged.
+    Once the changes are done, click on `Save` and save the new configuration . The approval workflow is now engaged.
 
 
 3.  Sign in to the WSO2 API Developer Portal (`https://<hostname>:<port>/devportal`) and click **Applications**. Select the application which has the subscriptions you need to delete.

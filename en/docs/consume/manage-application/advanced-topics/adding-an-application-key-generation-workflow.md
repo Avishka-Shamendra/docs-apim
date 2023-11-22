@@ -10,28 +10,21 @@ This section explains as to how you can attach a simple approval workflow to the
 
 ## Engage the Approval Workflow Executor in API Manager
 
-First, enable the application registration workflow.
+1. Sign in to WSO2 API-M Admin Portal (`https://<Server-Host>:9443/admin`).
 
-1.  Start WSO2 API Manager and sign in to the APIM management console (`https://<Server Host>:9443/carbon`).
-
-2. Click **Main** --> **Resources** --> **Browse**.
-
-     <a href="{{base_path}}/assets/img/learn/wf-extensions-browse.png"><img src="{{base_path}}/assets/img/learn/wf-extensions-browse.png" width="250" height="100"/></a>
-
-3.  Go to the `/_system/governance/apimgt/applicationdata/workflow-extensions.xml` resource, disable the Simple Workflow Executor and enable **Approval Workflow Executor**  for application registration key generation. You can enable Approve workflow executor for Product keys or Sandbox keys or both by disabling the simple workflow executor and enable approval workflow executor for the ones you need. Please note that this workflow is not applicable for API keys generation.
-
-    ``` xml
-    <WorkFlowExtensions>
-    ...
-        <!--ProductionApplicationRegistration executor="org.wso2.carbon.apimgt.impl.workflow.ApplicationRegistrationSimpleWorkflowExecutor"/-->
-        <ProductionApplicationRegistration executor="org.wso2.carbon.apimgt.impl.workflow.ApplicationRegistrationApprovalWorkflowExecutor"/>
-    ...   
-        <!--SandboxApplicationRegistration executor="org.wso2.carbon.apimgt.impl.workflow.ApplicationRegistrationSimpleWorkflowExecutor"/-->
-        <SandboxApplicationRegistration executor="org.wso2.carbon.apimgt.impl.workflow.ApplicationRegistrationApprovalWorkflowExecutor"/>
-    ...
-    </WorkFlowExtensions>
+2. Navigate to **Settings** --> **Advanced** section.
+    
+3. Add the following under **Workflows** configuration section and enable **Approval Workflow Executor**  for application registration key generation. You can enable Approve workflow executor for Product keys or Sandbox keys or both by disabling the simple workflow executor and enable approval workflow executor for the ones you need. Please note that this workflow is not applicable for API keys generation.
+    ``` json
+    "Workflows" : {
+        ...
+        "ProductionApplicationRegistration" : {},
+        "SandboxApplicationRegistration" : {},
+        ...
+    }
     ```
-    The application key generation Approve Workflow Executor is now engaged.
+
+    Once the changes are done, click on `Save` and save the new configuration . The approval workflow is now engaged.
 
 4.  Sign in to the API Developer Portal (<https://localhost:9443/devportal>) as a Developer Portal user and open the application with which you subscribed to the API. Click **Applications** and click on an **ACTIVE** application.
 

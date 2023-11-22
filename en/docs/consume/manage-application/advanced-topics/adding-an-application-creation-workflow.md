@@ -11,24 +11,21 @@ Example usecase:
 
 ## Engage the Approval Workflow Executor in API Manager
 
-First enable the approve workflow executor for application creation.
+1. Sign in to WSO2 API-M Admin Portal (`https://<Server-Host>:9443/admin`).
 
-1.  Sign in to WSO2 API-M Management Console (`https://<Server-Host>:9443/carbon`).
-
-2. Click **Main** --> **Resources** --> **Browse**.
-
-    <a href="{{base_path}}/assets/img/learn/wf-extensions-browse.png"><img src="{{base_path}}/assets/img/learn/wf-extensions-browse.png" width="250" height="100"/></a>
+2. Navigate to **Settings** --> **Advanced** section.
     
-3.  Go to the `/_system/governance/apimgt/applicationdata/workflow-extensions.xml` resource, click on `Edit as text` to edit the file, disable the Simple Workflow Executor, and enable **Approval Workflow Executor** for application creation.
+3. Add the following under **Workflows** configuration section and enable **Approval Workflow Executor** for application creation.
 
-    ``` xml
-    <WorkFlowExtensions>
-        <!--ApplicationCreation executor="org.wso2.carbon.apimgt.impl.workflow.ApplicationCreationSimpleWorkflowExecutor"-->
-        <ApplicationCreation executor="org.wso2.carbon.apimgt.impl.workflow.ApplicationCreationApprovalWorkflowExecutor">
-    </WorkFlowExtensions>
+    ``` json
+    "Workflows" : {
+        ...
+        "ApplicationCreation" : {},
+        ...
+    }
     ```
 
-    Once the changes are done, click on `Save Content` .The application creation Approve Workflow Executor is now engaged.
+    Once the changes are done, click on `Save` and save the new configuration . The approval workflow is now engaged.
 
 4.  Create an application via the Developer Portal.
     
